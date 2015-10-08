@@ -11,9 +11,16 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import java.awt.Font;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.util.ArrayList;
 import java.awt.Cursor;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.SoftBevelBorder;
+
+import controller.ClientSocket;
+import controller.ConnectionsManager;
+
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
 
@@ -26,6 +33,21 @@ public class ServerFrame extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtIp;
 	private JTextField txtPort;
+	private ServerSocket server;
+	public JTextArea getTxtrPrompt() {
+		return txtrPrompt;
+	}
+
+	public void setServer(ServerSocket server) {
+		this.server = server;
+	}
+
+	private ArrayList<ClientSocket> clients;
+	private JScrollPane scrollPane;
+	private JTextArea txtrPrompt;
+	private JLabel lblIp;
+	private JLabel lblPort;
+	private int port = 30000;
 
 	/**
 	 * Launch the application.
@@ -42,6 +64,22 @@ public class ServerFrame extends JFrame {
 			}
 		});
 	}
+	
+	public JTextField getTxtIp() {
+		return txtIp;
+	}
+
+	public JTextField getTxtPort() {
+		return txtPort;
+	}
+
+	public ServerSocket getServer() {
+		return server;
+	}
+
+	public ArrayList<ClientSocket> getClients() {
+		return clients;
+	}
 
 	/**
 	 * Create the frame.
@@ -56,12 +94,34 @@ public class ServerFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[63.00,grow][19.00][133.00][grow][][142.00][grow]", "[grow][][][]"));
 		
-		JScrollPane scrollPane = new JScrollPane();
+		initComponents();
+		
+		try {
+			server = new ServerSocket(port);
+			server.setSoTimeout(5000);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("excepcion creando serverSocket");
+		}
+		clients = new ArrayList<ClientSocket>();
+		ConnectionsManager connectionsManager = ConnectionsManager.getManager(this);
+		Thread manager = new Thread(connectionsManager);	
+		
+		manager.start();
+		
+		
+	}
+	
+	private void initComponents(){
+		
+		
+		scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		contentPane.add(scrollPane, "cell 0 0 7 1,grow");
 		
-		JTextArea txtrPrompt = new JTextArea();
+		txtrPrompt = new JTextArea();
 		txtrPrompt.setForeground(new Color(255, 255, 255));
 		txtrPrompt.setBackground(Color.BLACK);
 		txtrPrompt.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
@@ -71,7 +131,7 @@ public class ServerFrame extends JFrame {
 		txtrPrompt.setLineWrap(true);
 		scrollPane.setViewportView(txtrPrompt);
 		
-		JLabel lblIp = new JLabel("Ip");
+		lblIp = new JLabel("Ip");
 		lblIp.setFont(new Font("Tahoma", Font.BOLD, 14));
 		contentPane.add(lblIp, "cell 1 2,alignx trailing");
 		
@@ -80,7 +140,7 @@ public class ServerFrame extends JFrame {
 		contentPane.add(txtIp, "cell 2 2,growx");
 		txtIp.setColumns(10);
 		
-		JLabel lblPort = new JLabel("Port");
+		lblPort = new JLabel("Port");
 		lblPort.setFont(new Font("Tahoma", Font.BOLD, 14));
 		contentPane.add(lblPort, "cell 4 2,alignx trailing");
 		
@@ -88,6 +148,8 @@ public class ServerFrame extends JFrame {
 		txtPort.setEditable(false);
 		contentPane.add(txtPort, "cell 5 2,growx");
 		txtPort.setColumns(10);
+		txtPort.setText(Integer.toString(port));
+		
 	}
 
 }
