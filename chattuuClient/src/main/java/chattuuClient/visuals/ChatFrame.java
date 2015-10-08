@@ -1,4 +1,4 @@
-package visuals;
+package chattuuClient.visuals;
 
 import java.awt.EventQueue;
 

@@ -1,4 +1,4 @@
-package visuals;
+package chattuuServer.visuals;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
