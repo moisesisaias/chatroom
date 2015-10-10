@@ -20,13 +20,13 @@ import javax.swing.border.SoftBevelBorder;
 
 import chattuuServer.controller.ConnectionsManager;
 import chattuuServer.controller.MessagesManager;
+import chattuuServer.controller.ServerClosingAction;
 import chattuuServer.model.ActiveClients;
 import chattuuServer.model.ClientSocket;
 
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
 
 public class ServerFrame extends JFrame {
 
@@ -48,6 +48,7 @@ public class ServerFrame extends JFrame {
 	private Thread thrToConManager;
 	private MessagesManager messagesManager;
 	private Thread thrToMsgManager;
+	public final static String MAGIC_WORD = "+*JEYMOICHATTUUFIN*+";
 
 	/**
 	 * Launch the application.
@@ -114,11 +115,8 @@ public class ServerFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public ServerFrame() {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-			}
-		});
+		addWindowListener(new ServerClosingAction(this));
+		
 		setResizable(false);
 		setTitle("Chattuu Server");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -138,11 +136,15 @@ public class ServerFrame extends JFrame {
 			e.printStackTrace();
 			System.out.println("excepcion creando serverSocket");
 		}
-		clients = new ActiveClients();
+		clients = ActiveClients.getInstance();
 		connectionsManager = ConnectionsManager.getManager(this);
 		thrToConManager = new Thread(connectionsManager);	
 		
+		messagesManager = MessagesManager.getManager(this);
+		thrToMsgManager = new Thread(messagesManager);
+		
 		thrToConManager.start();
+		thrToMsgManager.start();
 		
 		
 	}

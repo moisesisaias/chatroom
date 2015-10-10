@@ -2,15 +2,22 @@ package chattuuServer.model;
 
 import java.util.ArrayList;
 
-public class ActiveClients {
+public final class ActiveClients {
 	
 	private ArrayList<ClientSocket> clients;
+	private static ActiveClients instance;
 
-	public ActiveClients() {
+	private ActiveClients() {
 		super();
 		clients = new ArrayList<ClientSocket>();
 	}
-
+	
+	public static ActiveClients getInstance(){
+		if(instance == null){
+			instance = new ActiveClients();
+		}
+		return instance;
+	}
 
 	protected ActiveClients(ArrayList<ClientSocket> clients) {
 		super();
@@ -31,6 +38,14 @@ public class ActiveClients {
 	
 	public int size(){
 		return clients.size();
+	}
+	
+	public boolean isEmpty(){
+		return clients.isEmpty();
+	}
+	// TODO: usar este metodo en vez de llamar getClients y luego get.
+	public synchronized ClientSocket getClient(int clientIndex){
+		return clients.get(clientIndex);
 	}
 
 }

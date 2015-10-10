@@ -90,9 +90,8 @@ public final class ConnectionsManager implements Runnable {
 			}
 
 		}
-		if (close()) {
-
-		} else {
+		
+		if (!close()) {
 			System.out.println("Fallo cerrando server y sockets");
 		}
 
@@ -107,7 +106,6 @@ public final class ConnectionsManager implements Runnable {
 		String message = strDateFormat + hostNameAddress + " y puerto " + client.getPort() + " acaba de conectarse\n";
 
 		return message;
-
 	}
 
 	public boolean close() {
@@ -116,7 +114,8 @@ public final class ConnectionsManager implements Runnable {
 		/*
 		 * for(ClientSocket client : clients){ closeClientSocket(client); }
 		 */
-
+		parent.getMessagesManager().setTerminate(true);
+		
 		if (!getServer().isClosed()) {
 			try {
 				getServer().close();
@@ -127,7 +126,6 @@ public final class ConnectionsManager implements Runnable {
 				e.printStackTrace();
 			}
 		}
-
 		return closed;
 
 	}
