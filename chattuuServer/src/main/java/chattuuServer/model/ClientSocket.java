@@ -1,4 +1,4 @@
-package controller;
+package chattuuServer.model;
 
 import java.net.Socket;
 import java.net.SocketException;
