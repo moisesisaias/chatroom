@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.Socket;
 
 public class ChatFrame extends JFrame{
 
@@ -31,8 +32,10 @@ public class ChatFrame extends JFrame{
 	private JTextArea txtrWritemsg;
 	private JButton btnSend;
 	private JButton btnDisconnect;
+	private JFrame parent;
+	private Socket clientSocket;
 	
-
+	//TODO: eliminir cuando se configure el inicio correcto
 	/**
 	 * Launch the application.
 	 */
@@ -48,13 +51,21 @@ public class ChatFrame extends JFrame{
 			}
 		});
 	}
-
+	
+	// TODO: eliminar cuando la app esté lista
 	/**
 	 * Create the application.
 	 */
 	public ChatFrame() {
 		initialize();
 	}
+	
+	public ChatFrame(JFrame parent, Socket clientSocket) {
+		initialize();
+		this.parent = parent;
+		this.clientSocket = clientSocket;
+	}
+	
 
 	/**
 	 * Initialize the contents of the frame.
