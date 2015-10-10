@@ -11,6 +11,10 @@ import javax.swing.JTextArea;
 import java.awt.Dimension;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ChatFrame extends JFrame{
 
@@ -57,6 +61,11 @@ public class ChatFrame extends JFrame{
 	 */
 	private void initialize() {
 		frmChattuu = new JFrame();
+		frmChattuu.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+			}
+		});
 		frmChattuu.setTitle("Chattuu");
 		frmChattuu.setMinimumSize(new Dimension(500, 350));
 		frmChattuu.setBounds(100, 100, 500, 433);
@@ -101,10 +110,18 @@ public class ChatFrame extends JFrame{
 		scrollPane_2.setViewportView(txtrWritemsg);
 		
 		btnSend = new JButton("Enviar");
+		btnSend.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnSend.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		frmChattuu.getContentPane().add(btnSend, "cell 2 1,grow");
 		
 		btnDisconnect = new JButton("Desconectar");
+		btnDisconnect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnDisconnect.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		frmChattuu.getContentPane().add(btnDisconnect, "cell 2 2,grow");
 	}

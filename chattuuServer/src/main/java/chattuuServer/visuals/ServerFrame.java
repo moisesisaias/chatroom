@@ -25,6 +25,8 @@ import chattuuServer.model.ClientSocket;
 
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ServerFrame extends JFrame {
 
@@ -112,6 +114,11 @@ public class ServerFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public ServerFrame() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+			}
+		});
 		setResizable(false);
 		setTitle("Chattuu Server");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -25,7 +25,6 @@ public final class MessagesManager implements Runnable {
 	}
 	
 	
-	@Override
 	public void run(){
 		while(!terminate){
 			

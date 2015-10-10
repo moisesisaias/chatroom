@@ -13,6 +13,8 @@ import javax.swing.JTextArea;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainFrame extends JFrame{
 
@@ -73,6 +75,10 @@ public class MainFrame extends JFrame{
 		txtIp.setColumns(10);
 		
 		JButton btnConnect = new JButton("Conectar");
+		btnConnect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnConnect.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		frmChattuuLog.getContentPane().add(btnConnect, "cell 3 3,grow");
 		
@@ -86,6 +92,10 @@ public class MainFrame extends JFrame{
 		txtPort.setColumns(10);
 		
 		JButton btnExit = new JButton("Salir");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnExit.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		frmChattuuLog.getContentPane().add(btnExit, "cell 3 5,grow");
 		
