@@ -14,8 +14,12 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 
-public class MainFrame {
+public class MainFrame extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frmChattuuLog;
 	private JTextField txtIp;
 	private JTextField txtPort;

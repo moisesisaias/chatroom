@@ -12,8 +12,12 @@ import java.awt.Dimension;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 
-public class ChatFrame {
+public class ChatFrame extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frmChattuu;
 
 	/**

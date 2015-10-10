@@ -70,7 +70,6 @@ public final class ConnectionsManager implements Runnable {
 		return parent;
 	}
 
-	@Override
 	public void run() {
 		// TODO: volver a porner !terminate
 		while (clients.size() < 2){
