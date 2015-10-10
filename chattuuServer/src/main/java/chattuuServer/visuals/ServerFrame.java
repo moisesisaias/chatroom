@@ -18,8 +18,10 @@ import java.awt.Cursor;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.SoftBevelBorder;
 
-import controller.ClientSocket;
-import controller.ConnectionsManager;
+import chattuuServer.controller.ConnectionsManager;
+import chattuuServer.controller.MessagesManager;
+import chattuuServer.model.ActiveClients;
+import chattuuServer.model.ClientSocket;
 
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
@@ -34,20 +36,16 @@ public class ServerFrame extends JFrame {
 	private JTextField txtIp;
 	private JTextField txtPort;
 	private ServerSocket server;
-	public JTextArea getTxtrPrompt() {
-		return txtrPrompt;
-	}
-
-	public void setServer(ServerSocket server) {
-		this.server = server;
-	}
-
-	private ArrayList<ClientSocket> clients;
+	private ActiveClients clients;
 	private JScrollPane scrollPane;
 	private JTextArea txtrPrompt;
 	private JLabel lblIp;
 	private JLabel lblPort;
 	private int port = 30000;
+	private ConnectionsManager connectionsManager;
+	private Thread thrToConManager;
+	private MessagesManager messagesManager;
+	private Thread thrToMsgManager;
 
 	/**
 	 * Launch the application.
@@ -65,6 +63,20 @@ public class ServerFrame extends JFrame {
 		});
 	}
 	
+
+	public ConnectionsManager getConnectionsManager() {
+		return connectionsManager;
+	}
+
+	
+	public JTextArea getTxtrPrompt() {
+		return txtrPrompt;
+	}
+
+	public void setServer(ServerSocket server) {
+		this.server = server;
+	}
+
 	public JTextField getTxtIp() {
 		return txtIp;
 	}
@@ -77,9 +89,24 @@ public class ServerFrame extends JFrame {
 		return server;
 	}
 
-	public ArrayList<ClientSocket> getClients() {
+	public ArrayList<ClientSocket> getClientsList() {
+		return clients.getClients();
+	}
+	
+	public ActiveClients getClients(){
 		return clients;
 	}
+	
+	public MessagesManager getMessagesManager() {
+		return messagesManager;
+	}
+
+
+	public Thread getThrToMsgManager() {
+		return thrToMsgManager;
+	}
+
+	
 
 	/**
 	 * Create the frame.
@@ -98,17 +125,17 @@ public class ServerFrame extends JFrame {
 		
 		try {
 			server = new ServerSocket(port);
-			server.setSoTimeout(5000);
+			server.setSoTimeout(1000);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("excepcion creando serverSocket");
 		}
-		clients = new ArrayList<ClientSocket>();
-		ConnectionsManager connectionsManager = ConnectionsManager.getManager(this);
-		Thread manager = new Thread(connectionsManager);	
+		clients = new ActiveClients();
+		connectionsManager = ConnectionsManager.getManager(this);
+		thrToConManager = new Thread(connectionsManager);	
 		
-		manager.start();
+		thrToConManager.start();
 		
 		
 	}

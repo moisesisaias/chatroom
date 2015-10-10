@@ -1,41 +1,42 @@
-package controller;
+package chattuuServer.controller;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
+import chattuuServer.model.ActiveClients;
+import chattuuServer.model.ClientSocket;
 import chattuuServer.visuals.ServerFrame;
 
 public final class ConnectionsManager implements Runnable {
 
 	private ServerSocket server;
-	private ArrayList<ClientSocket> clients;
 	private static ConnectionsManager instance;
 	private ServerFrame parent;
+	private ActiveClients clients;
 	private DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy-HH:mm:ss");
-
 	private boolean terminate;
 
 	private ConnectionsManager(ServerFrame parent) {
 		super();
 		this.server = parent.getServer();
-		this.clients = parent.getClients();
 		this.parent = parent;
+		this.clients = parent.getClients();
 		this.terminate = false;
 	}
 
 	public static ConnectionsManager getManager(ServerFrame parent) {
-
 		if (instance == null) {
 			instance = new ConnectionsManager(parent);
 		}
 
 		instance.setTerminate(false);
 		return instance;
+	}
 
+	protected static void resetManager() {
+		instance = null;
 	}
 
 	public boolean isTerminate() {
@@ -48,10 +49,6 @@ public final class ConnectionsManager implements Runnable {
 
 	public ServerSocket getServer() {
 		return server;
-	}
-
-	public ArrayList<ClientSocket> getClients() {
-		return clients;
 	}
 
 	public ConnectionsManager getInstance() {
@@ -73,23 +70,18 @@ public final class ConnectionsManager implements Runnable {
 	@Override
 	public void run() {
 		// TODO: volver a porner !terminate
-		while (clients.size() < 2){
+		while (clients.size() < 2 && !terminate) {
 			try {
 				Socket socket = server.accept();
 				if (socket != null) {
 					ClientSocket client = new ClientSocket(socket);
 
-					synchronized (clients) {
-						clients.add(client);
-						 String message = socketConnectedMessage(client);
-						 parent.getTxtrPrompt().append(message);
-					}
-					
+					clients.add(client);
+					String message = socketConnectedMessage(client);
+					parent.getTxtrPrompt().append(message);
 
 				}
-				
-				
-				 
+
 			} catch (IOException e1) {
 				// TODO: algo
 				// e1.printStackTrace();
@@ -99,15 +91,15 @@ public final class ConnectionsManager implements Runnable {
 			}
 
 		}
-		if(close()){
-			
-		}else{
+		if (close()) {
+
+		} else {
 			System.out.println("Fallo cerrando server y sockets");
 		}
 
 	}
 
-	public String socketConnectedMessage(ClientSocket client) {
+	private String socketConnectedMessage(ClientSocket client) {
 
 		String strDateFormat = dateFormat.format(client.getConnectionDate()) + ": ";
 
@@ -123,11 +115,10 @@ public final class ConnectionsManager implements Runnable {
 
 		boolean closed = true;
 		/*
-		for(ClientSocket client : clients){
-			closeClientSocket(client);
-		}*/
-		
-		if(!getServer().isClosed()){
+		 * for(ClientSocket client : clients){ closeClientSocket(client); }
+		 */
+
+		if (!getServer().isClosed()) {
 			try {
 				getServer().close();
 			} catch (IOException e) {
@@ -145,19 +136,24 @@ public final class ConnectionsManager implements Runnable {
 	public void closeClientSocket(ClientSocket client) {
 		try {
 			if (!client.getSocket().isClosed()) {
-				//client.getSocket().getInputStream().close();
-				//client.getSocket().getOutputStream().close();
+				// client.getSocket().getInputStream().close();
+				// client.getSocket().getOutputStream().close();
 				client.getSocket().close();
 			}
 
 			clients.remove(client);
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Cerrando cliente");
 			e.printStackTrace();
 		}
 
+	}
+
+	public ActiveClients getClients() {
+		
+		return clients;
 	}
 
 }
