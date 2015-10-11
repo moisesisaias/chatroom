@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -12,16 +13,18 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JTextArea;
 import javax.swing.border.SoftBevelBorder;
+import javax.swing.text.MaskFormatter;
 
 import chattuuClient.controller.ActionConnect;
+import chattuuClient.model.ClientSocket;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.ActionListener;
-import java.net.Socket;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.ParseException;
 
 public class MainFrame extends JFrame {
 
@@ -31,7 +34,7 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	// TODO: usando extends, para usar atributo debe quitar el extends
 	// private JFrame frmChattuuLog;
-	private JTextField txtIp;
+	private JFormattedTextField txtIp;
 	private JTextField txtPort;
 	private JLabel lblTitle;
 	private JLabel lblIp;
@@ -40,8 +43,9 @@ public class MainFrame extends JFrame {
 	private JButton btnExit;
 	private JTextArea txtrErrorlog;
 	// TODO:  verificar si es necesario aquí, las dos variables siguentes
-	private Socket clientSocket;
+	private ClientSocket clientSocket;
 	private ChatFrame chat;
+	private MaskFormatter mask;
 
 	
 
@@ -98,8 +102,30 @@ public class MainFrame extends JFrame {
 		lblIp.setFont(new Font("Tahoma", Font.BOLD, 11));
 		//frmChattuuLog.getContentPane().add(lblIp, "cell 0 3,alignx trailing,growy");
 		getContentPane().add(lblIp, "cell 0 3,alignx trailing,growy");
+		
+		try {
+			mask = new MaskFormatter("###.###.###.###");
+			mask.setPlaceholderCharacter('0');
+			mask.setPlaceholder("000.000.000.000");
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			mask = null;
+			e1.printStackTrace();
+		}
 
-		txtIp = new JTextField();
+		if (mask != null) {
+			txtIp = new JFormattedTextField(mask);
+			txtIp.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+						txtPort.grabFocus();
+					}
+				}
+			});
+		} else {
+			txtIp = new JFormattedTextField();
+		}
 		// TODO: ver si se sepaara en clase
 		txtIp.addKeyListener(new KeyAdapter() {
 			@Override
@@ -200,20 +226,13 @@ public class MainFrame extends JFrame {
 		return txtrErrorlog;
 	}
 
-	protected Socket getClientSocket() {
+	protected ClientSocket getClientSocket() {
 		return clientSocket;
 	}
 
-	protected void setClientSocket(Socket clientSocket) {
-		this.clientSocket = clientSocket;
-	}
 	
 	protected ChatFrame getChat() {
 		return chat;
-	}
-
-	void setChat(ChatFrame chat) {
-		this.chat = chat;
 	}
 
 	

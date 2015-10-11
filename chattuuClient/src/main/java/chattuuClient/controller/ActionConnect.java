@@ -7,14 +7,16 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import chattuuClient.model.ClientSocket;
 import chattuuClient.visuals.ChatFrame;
 import chattuuClient.visuals.MainFrame;
 
 public class ActionConnect implements ActionListener {
 	
 	private MainFrame parent;
-	private Socket clientSocket;
+	private ClientSocket clientSocket;
 	private ChatFrame chatuu;
+	public final static String MAGIC_WORD = "+*JEYMOICHATTUUFIN*+";
 	
 	public ActionConnect(MainFrame parent) {
 		this.parent = parent;
@@ -31,7 +33,8 @@ public class ActionConnect implements ActionListener {
 				String ip = parent.getTxtIp().getText().trim();
 				int port = Integer.parseInt(parent.getTxtPort().getText().trim());
 				try {
-					clientSocket = new Socket(ip, port);
+					// colocar el nomber
+					clientSocket = new ClientSocket(new Socket(ip, port), parent.getName());
 					chatuu = new ChatFrame(parent, clientSocket);
 					
 					

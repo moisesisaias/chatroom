@@ -1,29 +1,52 @@
-package chattuuServer.model;
+package chattuuClient.model;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Date;
 
 public class ClientSocket {
 
 	private String name;
-
+	private String oName;
 	private String address;
 	private int port;
 	private Socket socket;
 	private Date connectionDate;
+	private InetAddress inetA;
 
-	public ClientSocket(Socket socket) throws SocketException {
+	public ClientSocket(Socket socket, String name) throws SocketException {
 		super();
+		
+		try {
+			this.inetA = InetAddress.getLocalHost();
+		} catch (UnknownHostException e2) {
+			this.inetA = socket.getLocalAddress();
+			//e2.printStackTrace();
+		}
+		
 		this.socket = socket;
-		this.name = socket.getInetAddress().getHostName();
+		this.oName = inetA.getHostName();
 		this.address = socket.getInetAddress().getHostAddress();
 		this.port = socket.getPort();
-		this.socket.setSoTimeout(100);
+		this.socket.setSoTimeout(500);
+		
+		if(name != null && !name.equals("")){
+			this.name = name;
+		}else{
+			this.name = "Anonimo";
+		}
+		
 		connectionDate = new Date();
 
+	}
+
+	protected String getoName() {
+		return oName;
 	}
 
 	@Override
@@ -59,9 +82,6 @@ public class ClientSocket {
 		return address;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
 
 	public int getPort() {
 		return port;
@@ -74,7 +94,7 @@ public class ClientSocket {
 	public Date getConnectionDate() {
 		return connectionDate;
 	}
-
+	
 	public boolean isConnected(){
 		return socket.isConnected();
 	}
@@ -102,5 +122,16 @@ public class ClientSocket {
 		
 	}
 
+	public boolean isOutputShutdown() {
+		return socket.isOutputShutdown();
+	}
+
+	public boolean isInputShutdown() {
+		return socket.isInputShutdown();
+	}
+
+	public InputStream getInputStream() throws IOException {
+		return socket.getInputStream();
+	}
 
 }

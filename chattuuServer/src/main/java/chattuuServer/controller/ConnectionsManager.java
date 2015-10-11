@@ -133,8 +133,8 @@ public final class ConnectionsManager implements Runnable {
 	public void closeClientSocket(ClientSocket client) {
 		try {
 			if (!client.getSocket().isClosed()) {
-				// client.getSocket().getInputStream().close();
-				// client.getSocket().getOutputStream().close();
+				client.getSocket().shutdownInput();
+				client.getSocket().shutdownOutput();
 				client.getSocket().close();
 			}
 
