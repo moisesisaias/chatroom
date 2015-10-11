@@ -41,6 +41,7 @@ public class ServerFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static ServerFrame frameInstance = new ServerFrame();
 	private JPanel contentPane;
 	private JTextField txtIp;
 	private JTextField txtPort;
@@ -66,6 +67,7 @@ public class ServerFrame extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	/*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -82,7 +84,7 @@ public class ServerFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ServerFrame() {
+	private ServerFrame() {
 		addWindowListener(new ServerClosingAction(this));
 
 		setResizable(false);
@@ -198,6 +200,10 @@ public class ServerFrame extends JFrame {
 		txtPort.setColumns(10);
 		txtPort.setText(Integer.toString(port));
 
+	}
+	
+	public static ServerFrame getFrameInstance() {
+		return frameInstance;
 	}
 
 	public ConnectionsManager getConnectionsManager() {

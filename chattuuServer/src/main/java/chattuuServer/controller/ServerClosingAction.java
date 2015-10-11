@@ -3,6 +3,7 @@ package chattuuServer.controller;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import chattuuServer.model.AppLock;
 import chattuuServer.visuals.ServerFrame;
 
 public class ServerClosingAction extends WindowAdapter {
@@ -18,6 +19,13 @@ public class ServerClosingAction extends WindowAdapter {
 	public void windowClosing(WindowEvent e) {
 		parent.getConnectionsManager().setTerminate(true);
 		parent.getMessagesManager().setTerminate(true);
+		
+		MessagesManager.resetManager();
+		
+		AppLock.releaseLock(); // Release lock
+	    
+		if(ServerFrame.getFrameInstance() != null)
+	    	ServerFrame.getFrameInstance().dispose();
 		
 		try {
 			Thread.sleep(500);

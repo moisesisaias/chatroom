@@ -24,7 +24,7 @@ public class ConnectionsManagerTest {
 
 	@Before
 	public void setUp() {
-		serverFrame = new ServerFrame();
+		serverFrame = ServerFrame.getFrameInstance();
 		connectionsManager = ConnectionsManager.getManager(serverFrame);
 		thrToConManager = new Thread(connectionsManager);
 		thrToConManager.start();

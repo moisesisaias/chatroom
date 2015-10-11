@@ -63,9 +63,12 @@ public class ChatFrame extends JFrame{
 		initialize();
 		this.parent = parent;
 		this.clientSocket = clientSocket;
+		
+		setTitle(clientSocket.getName() + " - Chattuu");
+		
 		messagesManager = MessagesManager.getManager(this);
 		thrMsgManager = new Thread(messagesManager);
-		 
+		
 		thrMsgManager.start();
 	}
 	
@@ -96,7 +99,6 @@ public class ChatFrame extends JFrame{
 		});
 		
 		// frmChattuu.setTitle("Chattuu");
-		setTitle("Chattuu");
 		// frmChattuu.setMinimumSize(new Dimension(500, 350));
 		setMinimumSize(new Dimension(500, 350));
 		// frmChattuu.setBounds(100, 100, 500, 433);

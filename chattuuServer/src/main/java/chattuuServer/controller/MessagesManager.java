@@ -129,4 +129,8 @@ public final class MessagesManager implements Runnable {
 			// TODO hacer algo
 		}
 	}
+	
+	public static void resetManager(){
+		instance = null;
+	}
 }
