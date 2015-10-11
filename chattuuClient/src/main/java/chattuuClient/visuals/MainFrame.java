@@ -1,7 +1,5 @@
 package chattuuClient.visuals;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
@@ -34,6 +32,7 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	// TODO: usando extends, para usar atributo debe quitar el extends
 	// private JFrame frmChattuuLog;
+	private static MainFrame frameInstance = new MainFrame();
 	private JFormattedTextField txtIp;
 	private JTextField txtPort;
 	private JLabel lblTitle;
@@ -54,6 +53,7 @@ public class MainFrame extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	/*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -67,11 +67,12 @@ public class MainFrame extends JFrame {
 			}
 		});
 	}
+	*/
 
 	/**
 	 * Create the application.
 	 */
-	public MainFrame() {
+	private MainFrame() {
 		initialize();
 	}
 
@@ -113,10 +114,10 @@ public class MainFrame extends JFrame {
 					@Override
 					public void keyPressed(KeyEvent e) {
 						if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-							txtIp.grabFocus();
+							txtIp.requestFocusInWindow();
 						}
 						if(e.getKeyCode() == KeyEvent.VK_TAB) {
-							txtIp.grabFocus();
+							txtIp.requestFocusInWindow();
 						}
 					}
 					@Override
@@ -158,7 +159,10 @@ public class MainFrame extends JFrame {
 				@Override
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-						txtPort.grabFocus();
+						txtPort.requestFocusInWindow();
+					}
+					if(e.getKeyCode() == KeyEvent.VK_TAB) {
+						txtPort.requestFocusInWindow();
 					}
 				}
 			});
@@ -170,10 +174,10 @@ public class MainFrame extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					txtPort.grabFocus();
+					txtPort.requestFocusInWindow();
 				}
 				if(e.getKeyCode() == KeyEvent.VK_TAB) {
-					txtPort.grabFocus();
+					txtPort.requestFocusInWindow();
 				}
 			}
 		});
@@ -213,7 +217,7 @@ public class MainFrame extends JFrame {
 				}
 				
 				if(e.getKeyCode() == KeyEvent.VK_TAB){
-					btnConnect.grabFocus();
+					btnConnect.requestFocusInWindow();
 				}
 
 			}
@@ -249,6 +253,10 @@ public class MainFrame extends JFrame {
 			// TODO: revisar cuando se ponga la app a iniciar por la interfaz
 			this.dispose();
 		}
+	}
+	
+	public static MainFrame getInstace() {
+		return frameInstance;
 	}
 
 	public JTextField getTxtUserName() {
