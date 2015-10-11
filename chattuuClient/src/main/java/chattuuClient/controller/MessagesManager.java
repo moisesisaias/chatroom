@@ -28,7 +28,6 @@ public final class MessagesManager implements Runnable{
 		return instance;
 	}
 	
-	@Override
 	public void run(){
 		
 		while(!terminate){

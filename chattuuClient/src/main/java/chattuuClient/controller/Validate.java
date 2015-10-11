@@ -53,6 +53,14 @@ public class Validate {
 		}
 		return true;
 	}
+	
+	public static boolean validUserName(String txtUserName, JTextArea txtrError) {
+		if(isEmpty(txtUserName)) {
+			txtrError.setText("Debe introducir un nombre de usuario.");
+			return false;
+		}
+		return true;
+	}
 
 	private static boolean isEmpty(String text) {
 		if (text.equals("")) return true;
