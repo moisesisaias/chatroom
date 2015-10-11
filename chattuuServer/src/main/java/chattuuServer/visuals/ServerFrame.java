@@ -12,8 +12,10 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.awt.Cursor;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.SoftBevelBorder;
@@ -43,7 +45,10 @@ public class ServerFrame extends JFrame {
 	private JTextArea txtrPrompt;
 	private JLabel lblIp;
 	private JLabel lblPort;
-	private int port = 30000;
+	private int port = 0;
+	private final static int DEFAULT_PORT = 0;
+	private final static String KEY_PORT_CONFIG = "port";
+	private final static String CONFIG_FILE_NAME = "config.properties";
 	private ConnectionsManager connectionsManager;
 	private Thread thrToConManager;
 	private MessagesManager messagesManager;
@@ -65,51 +70,6 @@ public class ServerFrame extends JFrame {
 			}
 		});
 	}
-	
-
-	public ConnectionsManager getConnectionsManager() {
-		return connectionsManager;
-	}
-
-	
-	public JTextArea getTxtrPrompt() {
-		return txtrPrompt;
-	}
-
-	public void setServer(ServerSocket server) {
-		this.server = server;
-	}
-
-	public JTextField getTxtIp() {
-		return txtIp;
-	}
-
-	public JTextField getTxtPort() {
-		return txtPort;
-	}
-
-	public ServerSocket getServer() {
-		return server;
-	}
-
-	public ArrayList<ClientSocket> getClientsList() {
-		return clients.getClients();
-	}
-	
-	public ActiveClients getClients(){
-		return clients;
-	}
-	
-	public MessagesManager getMessagesManager() {
-		return messagesManager;
-	}
-
-
-	public Thread getThrToMsgManager() {
-		return thrToMsgManager;
-	}
-
-	
 
 	/**
 	 * Create the frame.
@@ -128,11 +88,20 @@ public class ServerFrame extends JFrame {
 		
 		initComponents();
 		
+		
+		Properties config = new Properties();
+		try {
+			config.load(new InputStreamReader(this.getClass().getResourceAsStream(CONFIG_FILE_NAME)));
+		} catch (IOException e1) {
+			port = DEFAULT_PORT;
+		}
+		
+		
 		try {
 			server = new ServerSocket(port);
 			server.setSoTimeout(1000);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO revisar
 			e.printStackTrace();
 			System.out.println("excepcion creando serverSocket");
 		}
@@ -187,5 +156,48 @@ public class ServerFrame extends JFrame {
 		txtPort.setText(Integer.toString(port));
 		
 	}
+	
+	public ConnectionsManager getConnectionsManager() {
+		return connectionsManager;
+	}
+
+	
+	public JTextArea getTxtrPrompt() {
+		return txtrPrompt;
+	}
+
+	public void setServer(ServerSocket server) {
+		this.server = server;
+	}
+
+	public JTextField getTxtIp() {
+		return txtIp;
+	}
+
+	public JTextField getTxtPort() {
+		return txtPort;
+	}
+
+	public ServerSocket getServer() {
+		return server;
+	}
+
+	public ArrayList<ClientSocket> getClientsList() {
+		return clients.getClients();
+	}
+	
+	public ActiveClients getClients(){
+		return clients;
+	}
+	
+	public MessagesManager getMessagesManager() {
+		return messagesManager;
+	}
+
+
+	public Thread getThrToMsgManager() {
+		return thrToMsgManager;
+	}
+
 
 }
