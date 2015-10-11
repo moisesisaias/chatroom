@@ -1,4 +1,4 @@
-package chattuuServer.model;
+package chattuuServer.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;

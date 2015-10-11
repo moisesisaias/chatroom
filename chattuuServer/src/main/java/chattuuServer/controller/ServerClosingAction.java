@@ -3,7 +3,6 @@ package chattuuServer.controller;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import chattuuServer.model.AppLock;
 import chattuuServer.visuals.ServerFrame;
 
 public class ServerClosingAction extends WindowAdapter {

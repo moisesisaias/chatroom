@@ -26,6 +26,8 @@ import java.awt.Color;
 import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.border.CompoundBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ServerFrame extends JFrame {
 
@@ -53,8 +55,9 @@ public class ServerFrame extends JFrame {
 	private Thread thrToMsgManager;
 	public final static String MAGIC_WORD = "+*JEYMOICHATTUUFIN*+";
 	private JScrollPane scrollPane_1;
-	private JList list;
+	private JList<Object> list;
 	private JButton btnErase;
+	private JButton btnRetry;
 
 	/**
 	 * Launch the application.
@@ -86,8 +89,7 @@ public class ServerFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("",
-				"[63.00,grow][19.00][135.00][80px:100px,grow][][135px][70.00][100px:100px,grow]", "[grow][][][]"));
+		contentPane.setLayout(new MigLayout("", "[40.00,grow][30.00][90.00][40.00,grow][40.00px][80.00][40.00][90px][40.00][100px:100px,grow]", "[grow][][][]"));
 
 		initComponents();
 		loadPort();
@@ -121,8 +123,6 @@ public class ServerFrame extends JFrame {
 	}
 	
 	private void startServer(){
-		
-
 		try {
 			server = new ServerSocket(port);
 			
@@ -142,11 +142,14 @@ public class ServerFrame extends JFrame {
 			thrToConManager.start();
 			thrToMsgManager.start();
 			
+			btnRetry.setEnabled(false);
+			
 		} catch (IOException e) {
 			// TODO revisar
 			e.printStackTrace();
 			System.out.println("Excepcion creando serverSocket");
 			txtrPrompt.append("Excepcion creando serverSocket, "+e.getMessage()+". Cierre y eliga otro puerto o presione reintentar para ");
+			btnRetry.setEnabled(true);
 		}
 		
 		
@@ -157,7 +160,7 @@ public class ServerFrame extends JFrame {
 		scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		contentPane.add(scrollPane, "cell 0 0 7 1,grow");
+		contentPane.add(scrollPane, "cell 0 0 9 1,grow");
 
 		txtrPrompt = new JTextArea();
 		txtrPrompt.setForeground(new Color(255, 255, 255));
@@ -170,9 +173,9 @@ public class ServerFrame extends JFrame {
 		scrollPane.setViewportView(txtrPrompt);
 
 		scrollPane_1 = new JScrollPane();
-		contentPane.add(scrollPane_1, "cell 7 0 1 4,grow");
+		contentPane.add(scrollPane_1, "cell 9 0 1 4,grow");
 
-		list = new JList();
+		list = new JList<Object>();
 		list.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		scrollPane_1.setViewportView(list);
 
@@ -180,25 +183,35 @@ public class ServerFrame extends JFrame {
 		btnErase.setBorder(new CompoundBorder());
 		btnErase.setFont(new Font("Tahoma", Font.BOLD, 12));
 		scrollPane_1.setColumnHeaderView(btnErase);
-
-		lblIp = new JLabel("Ip");
-		lblIp.setFont(new Font("Tahoma", Font.BOLD, 14));
-		contentPane.add(lblIp, "cell 1 2,alignx trailing,growy");
-
-		txtIp = new JTextField();
-		txtIp.setEditable(false);
-		contentPane.add(txtIp, "cell 2 2,grow");
-		txtIp.setColumns(10);
-
-		lblPort = new JLabel("Port");
-		lblPort.setFont(new Font("Tahoma", Font.BOLD, 14));
-		contentPane.add(lblPort, "cell 4 2,alignx trailing,growy");
-
-		txtPort = new JTextField();
-		txtPort.setEditable(false);
-		contentPane.add(txtPort, "cell 5 2,grow");
-		txtPort.setColumns(10);
-		txtPort.setText(Integer.toString(0));
+		
+				lblIp = new JLabel("Ip");
+				lblIp.setFont(new Font("Tahoma", Font.BOLD, 14));
+				contentPane.add(lblIp, "cell 1 2,alignx trailing,growy");
+		
+				txtIp = new JTextField();
+				txtIp.setEditable(false);
+				contentPane.add(txtIp, "cell 2 2,grow");
+				txtIp.setColumns(10);
+		
+				lblPort = new JLabel("Port");
+				lblPort.setFont(new Font("Tahoma", Font.BOLD, 14));
+				contentPane.add(lblPort, "cell 4 2,alignx trailing,growy");
+		
+				txtPort = new JTextField();
+				txtPort.setEditable(false);
+				contentPane.add(txtPort, "cell 5 2,grow");
+				txtPort.setColumns(10);
+				txtPort.setText(Integer.toString(0));
+				
+				btnRetry = new JButton("Reintentar");
+				btnRetry.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						port = 0;
+						startServer();
+					}
+				});
+				btnRetry.setEnabled(false);
+				contentPane.add(btnRetry, "cell 7 2,grow");
 
 	}
 	
@@ -244,6 +257,14 @@ public class ServerFrame extends JFrame {
 
 	public Thread getThrToMsgManager() {
 		return thrToMsgManager;
+	}
+
+	public JButton getBtnErase() {
+		return btnErase;
+	}
+
+	public JButton getBtnRetry() {
+		return btnRetry;
 	}
 
 }

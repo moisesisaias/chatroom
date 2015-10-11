@@ -1,6 +1,6 @@
 package chattuuServer;
 
-import chattuuServer.model.AppLock;
+import chattuuServer.controller.AppLock;
 import chattuuServer.visuals.ServerFrame;
 
 public class Start {
