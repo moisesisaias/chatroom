@@ -28,6 +28,10 @@ public final class MessagesManager implements Runnable{
 		return instance;
 	}
 	
+	public static void resetManager(){
+		instance = null;
+	}
+	
 	public void run(){
 		
 		while(!terminate){

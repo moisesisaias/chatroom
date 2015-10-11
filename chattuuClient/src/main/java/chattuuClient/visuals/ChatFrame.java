@@ -215,6 +215,7 @@ public class ChatFrame extends JFrame{
 					clientSocket.shutdownInput();
 					
 					clientSocket.close();
+					MessagesManager.resetManager();
 					System.out.println("El chat ha cerrado correctamente ... ");
 				} catch (IOException e) {
 					e.printStackTrace();

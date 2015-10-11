@@ -251,19 +251,19 @@ public class MainFrame extends JFrame {
 		}
 	}
 
-	public synchronized JTextField getTxtUserName() {
+	public JTextField getTxtUserName() {
 		return txtUserName;
 	}
 	
-	public synchronized JTextField getTxtIp() {
+	public JTextField getTxtIp() {
 		return txtIp;
 	}
 
-	public synchronized JTextField getTxtPort() {
+	public JTextField getTxtPort() {
 		return txtPort;
 	}
 
-	public synchronized JTextArea getTxtrErrorlog() {
+	public JTextArea getTxtrErrorlog() {
 		return txtrErrorlog;
 	}
 

@@ -34,7 +34,7 @@ public class ActionConnect implements ActionListener {
 				int port = Integer.parseInt(parent.getTxtPort().getText().trim());
 				try {
 					// colocar el nomber
-					clientSocket = new ClientSocket(new Socket(ip, port), parent.getName());
+					clientSocket = new ClientSocket(new Socket(ip, port), parent.getTxtUserName().getText());
 					chatuu = new ChatFrame(parent, clientSocket);
 					
 					

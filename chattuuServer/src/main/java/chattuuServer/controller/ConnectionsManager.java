@@ -69,7 +69,7 @@ public final class ConnectionsManager implements Runnable {
 
 	public void run() {
 		// TODO: volver a porner !terminate
-		while (clients.size() < 2 && !terminate) {
+		while (clients.size() < 3 && !terminate) {
 			try {
 				Socket socket = server.accept();
 				if (socket != null) {
