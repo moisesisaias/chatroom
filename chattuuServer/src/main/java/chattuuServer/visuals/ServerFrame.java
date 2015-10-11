@@ -26,6 +26,10 @@ import chattuuServer.model.ClientSocket;
 
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
+import javax.swing.JList;
+import javax.swing.JButton;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.CompoundBorder;
 
 
 public class ServerFrame extends JFrame {
@@ -49,6 +53,9 @@ public class ServerFrame extends JFrame {
 	private MessagesManager messagesManager;
 	private Thread thrToMsgManager;
 	public final static String MAGIC_WORD = "+*JEYMOICHATTUUFIN*+";
+	private JScrollPane scrollPane_1;
+	private JList list;
+	private JButton btnErase;
 
 	/**
 	 * Launch the application.
@@ -120,11 +127,11 @@ public class ServerFrame extends JFrame {
 		setResizable(false);
 		setTitle("Chattuu Server");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 611, 406);
+		setBounds(100, 100, 660, 406);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[63.00,grow][19.00][133.00][grow][][142.00][grow]", "[grow][][][]"));
+		contentPane.setLayout(new MigLayout("", "[63.00,grow][19.00][135.00][80px:100px,grow][][135px][70.00][100px:100px,grow]", "[grow][][][]"));
 		
 		initComponents();
 		
@@ -167,22 +174,34 @@ public class ServerFrame extends JFrame {
 		txtrPrompt.setLineWrap(true);
 		scrollPane.setViewportView(txtrPrompt);
 		
+		scrollPane_1 = new JScrollPane();
+		contentPane.add(scrollPane_1, "cell 7 0 1 4,grow");
+		
+		list = new JList();
+		list.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		scrollPane_1.setViewportView(list);
+		
+		btnErase = new JButton("Borrar");
+		btnErase.setBorder(new CompoundBorder());
+		btnErase.setFont(new Font("Tahoma", Font.BOLD, 12));
+		scrollPane_1.setColumnHeaderView(btnErase);
+		
 		lblIp = new JLabel("Ip");
 		lblIp.setFont(new Font("Tahoma", Font.BOLD, 14));
-		contentPane.add(lblIp, "cell 1 2,alignx trailing");
+		contentPane.add(lblIp, "cell 1 2,alignx trailing,growy");
 		
 		txtIp = new JTextField();
 		txtIp.setEditable(false);
-		contentPane.add(txtIp, "cell 2 2,growx");
+		contentPane.add(txtIp, "cell 2 2,grow");
 		txtIp.setColumns(10);
 		
 		lblPort = new JLabel("Port");
 		lblPort.setFont(new Font("Tahoma", Font.BOLD, 14));
-		contentPane.add(lblPort, "cell 4 2,alignx trailing");
+		contentPane.add(lblPort, "cell 4 2,alignx trailing,growy");
 		
 		txtPort = new JTextField();
 		txtPort.setEditable(false);
-		contentPane.add(txtPort, "cell 5 2,growx");
+		contentPane.add(txtPort, "cell 5 2,grow");
 		txtPort.setColumns(10);
 		txtPort.setText(Integer.toString(port));
 		

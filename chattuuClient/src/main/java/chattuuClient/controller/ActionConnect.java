@@ -24,11 +24,11 @@ public class ActionConnect implements ActionListener {
 	
 	
 	// TODO: verificar método
-	@Override
 	public void actionPerformed(ActionEvent e) {
 			// TODO: refactoring, variable explicativa
 			if (Validate.validIp(parent.getTxtIp().getText(),parent.getTxtrErrorlog())
-					&& Validate.validPort(parent.getTxtPort().getText(),parent.getTxtrErrorlog())) {
+					&& Validate.validPort(parent.getTxtPort().getText(),parent.getTxtrErrorlog())
+						&& Validate.validUserName(parent.getTxtUserName().getText(), parent.getTxtrErrorlog())) {
 				
 				String ip = parent.getTxtIp().getText().trim();
 				int port = Integer.parseInt(parent.getTxtPort().getText().trim());
