@@ -20,6 +20,7 @@ public class ServerClosingAction extends WindowAdapter {
 		parent.getConnectionsManager().setTerminate(true);
 		parent.getMessagesManager().setTerminate(true);
 		
+		ConnectionsManager.resetManager();
 		MessagesManager.resetManager();
 		
 		AppLock.releaseLock(); // Release lock

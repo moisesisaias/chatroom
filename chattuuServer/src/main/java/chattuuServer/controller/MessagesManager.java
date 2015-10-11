@@ -130,7 +130,7 @@ public final class MessagesManager implements Runnable {
 		}
 	}
 	
-	public static void resetManager(){
+	protected static void resetManager(){
 		instance = null;
 	}
 }

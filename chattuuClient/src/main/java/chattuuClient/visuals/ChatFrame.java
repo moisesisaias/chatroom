@@ -64,7 +64,7 @@ public class ChatFrame extends JFrame{
 		this.parent = parent;
 		this.clientSocket = clientSocket;
 		
-		setTitle(clientSocket.getName() + " - Chattuu");
+		setTitle(clientSocket.getName().trim() + " - Chattuu");
 		
 		messagesManager = MessagesManager.getManager(this);
 		thrMsgManager = new Thread(messagesManager);
