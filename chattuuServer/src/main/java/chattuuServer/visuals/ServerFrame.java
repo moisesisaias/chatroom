@@ -1,10 +1,7 @@
 package chattuuServer.visuals;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -12,16 +9,12 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.awt.Cursor;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.SoftBevelBorder;
-
-import org.junit.internal.Throwables;
-
 import chattuuServer.controller.ConnectionsManager;
 import chattuuServer.controller.MessagesManager;
 import chattuuServer.controller.ServerClosingAction;
@@ -32,7 +25,6 @@ import javax.swing.border.BevelBorder;
 import java.awt.Color;
 import javax.swing.JList;
 import javax.swing.JButton;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.CompoundBorder;
 
 public class ServerFrame extends JFrame {
@@ -98,11 +90,12 @@ public class ServerFrame extends JFrame {
 				"[63.00,grow][19.00][135.00][80px:100px,grow][][135px][70.00][100px:100px,grow]", "[grow][][][]"));
 
 		initComponents();
+		loadPort();
 		startServer();
 
 	}
 	
-	private void startServer(){
+	private void loadPort(){
 		Properties config = new Properties();
 		try {
 			ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -123,6 +116,12 @@ public class ServerFrame extends JFrame {
 			txtrPrompt.append(e1.getMessage());
 			port = DEFAULT_PORT;
 		}
+		txtPort.setText(Integer.toString(port));
+		
+	}
+	
+	private void startServer(){
+		
 
 		try {
 			server = new ServerSocket(port);
@@ -146,7 +145,8 @@ public class ServerFrame extends JFrame {
 		} catch (IOException e) {
 			// TODO revisar
 			e.printStackTrace();
-			System.out.println("excepcion creando serverSocket");
+			System.out.println("Excepcion creando serverSocket");
+			txtrPrompt.append("Excepcion creando serverSocket, "+e.getMessage()+". Cierre y eliga otro puerto o presione reintentar para ");
 		}
 		
 		
@@ -198,7 +198,7 @@ public class ServerFrame extends JFrame {
 		txtPort.setEditable(false);
 		contentPane.add(txtPort, "cell 5 2,grow");
 		txtPort.setColumns(10);
-		txtPort.setText(Integer.toString(port));
+		txtPort.setText(Integer.toString(0));
 
 	}
 	
