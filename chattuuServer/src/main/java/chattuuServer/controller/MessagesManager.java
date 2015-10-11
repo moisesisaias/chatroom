@@ -58,7 +58,7 @@ public final class MessagesManager implements Runnable {
 	 */
 	private void readAll() {
 		try {
-			ArrayList<ClientSocket> clientSockets = new ArrayList<>(clients.getClients());
+			ArrayList<ClientSocket> clientSockets = new ArrayList<ClientSocket>(clients.getClients());
 			if (clients.isEmpty()) {
 				Thread.sleep(100);
 			}

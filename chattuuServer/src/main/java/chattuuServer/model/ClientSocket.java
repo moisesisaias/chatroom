@@ -101,6 +101,9 @@ public class ClientSocket {
 		socket.close();
 		
 	}
-
+	
+	public String toString() {
+		return address + ":" + port;
+	}
 
 }
