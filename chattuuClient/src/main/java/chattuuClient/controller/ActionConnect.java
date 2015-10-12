@@ -24,17 +24,17 @@ public class ActionConnect implements ActionListener {
 	
 	
 	// TODO: verificar método
-	@Override
 	public void actionPerformed(ActionEvent e) {
 			// TODO: refactoring, variable explicativa
 			if (Validate.validIp(parent.getTxtIp().getText(),parent.getTxtrErrorlog())
-					&& Validate.validPort(parent.getTxtPort().getText(),parent.getTxtrErrorlog())) {
+					&& Validate.validPort(parent.getTxtPort().getText(),parent.getTxtrErrorlog())
+						&& Validate.validUserName(parent.getTxtUserName().getText().trim(), parent.getTxtrErrorlog())) {
 				
 				String ip = parent.getTxtIp().getText().trim();
 				int port = Integer.parseInt(parent.getTxtPort().getText().trim());
 				try {
 					// colocar el nomber
-					clientSocket = new ClientSocket(new Socket(ip, port), parent.getName());
+					clientSocket = new ClientSocket(new Socket(ip, port), parent.getTxtUserName().getText().trim());
 					chatuu = new ChatFrame(parent, clientSocket);
 					
 					

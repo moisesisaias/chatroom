@@ -5,4 +5,11 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Chattuu Client</name>
   <description>Client of the Chattuu app.</description>
+   <dependencies>
+  	<dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<version>4.12</version>
+  	</dependency>
+  </dependencies>
 </project>

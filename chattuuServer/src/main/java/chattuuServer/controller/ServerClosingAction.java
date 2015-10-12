@@ -16,13 +16,25 @@ public class ServerClosingAction extends WindowAdapter {
 	
 	@Override
 	public void windowClosing(WindowEvent e) {
-		parent.getConnectionsManager().setTerminate(true);
-		parent.getMessagesManager().setTerminate(true);
+		if(parent.getServer() != null) {
+			parent.getMessagesManager().sendExitKeyMessage();
+			parent.getConnectionsManager().setTerminate(true);
+			parent.getMessagesManager().setTerminate(true);
+		}
+		
+		ConnectionsManager.resetManager();
+		MessagesManager.resetManager();
+		
+		AppLock.releaseLock(); // lock liberado
+	    
+		if(ServerFrame.getFrameInstance() != null)
+	    	ServerFrame.getFrameInstance().dispose();
 		
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException ignored) {
 			// TODO: verificar que se puede ignorar.
+			System.out.println("Ignorado.... ");
 		}
 	}
 

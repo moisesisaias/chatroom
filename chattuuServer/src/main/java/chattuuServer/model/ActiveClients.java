@@ -43,7 +43,7 @@ public final class ActiveClients {
 	public boolean isEmpty(){
 		return clients.isEmpty();
 	}
-	// TODO: usar este metodo en vez de llamar getClients y luego get.
+	
 	public synchronized ClientSocket getClient(int clientIndex){
 		return clients.get(clientIndex);
 	}
