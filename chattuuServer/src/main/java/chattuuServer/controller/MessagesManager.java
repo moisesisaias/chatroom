@@ -54,7 +54,7 @@ public final class MessagesManager implements Runnable {
 	}
 
 	/**
-	 * leer si hay mensajes.
+	 * lee si hay mensajes.
 	 */
 	private void readAll() {
 		try {
@@ -99,7 +99,7 @@ public final class MessagesManager implements Runnable {
 						parent.getTxtrPrompt().append("Redireccionando mensaje...\n");
 
 						for (int i = 0; i < clients.size(); i++) {
-							ClientSocket clSock = clients.getClients().get(i);
+							ClientSocket clSock = clients.getClient(i);
 
 							try {
 								// System.out.println(socketClients.indexOf(sock));

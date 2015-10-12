@@ -69,7 +69,7 @@ public final class ConnectionsManager implements Runnable {
 
 	public void run() {
 		// TODO: volver a porner !terminate
-		while (clients.size() < 3 && !terminate) {
+		while (/*clients.size() < 3 && */!terminate) {
 			try {
 				Socket socket = server.accept();
 				if (socket != null) {
@@ -121,7 +121,6 @@ public final class ConnectionsManager implements Runnable {
 				getServer().close();
 			} catch (IOException e) {
 				closed = false;
-				// TODO Auto-generated catch block
 				System.out.println("cerrando el servidor");
 				e.printStackTrace();
 			}
@@ -141,7 +140,6 @@ public final class ConnectionsManager implements Runnable {
 			clients.remove(client);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Cerrando cliente");
 			e.printStackTrace();
 		}

@@ -22,7 +22,7 @@ public class ServerClosingAction extends WindowAdapter {
 		ConnectionsManager.resetManager();
 		MessagesManager.resetManager();
 		
-		AppLock.releaseLock(); // Release lock
+		AppLock.releaseLock(); // lock liberado
 	    
 		if(ServerFrame.getFrameInstance() != null)
 	    	ServerFrame.getFrameInstance().dispose();
@@ -31,6 +31,7 @@ public class ServerClosingAction extends WindowAdapter {
 			Thread.sleep(500);
 		} catch (InterruptedException ignored) {
 			// TODO: verificar que se puede ignorar.
+			System.out.println("Ignorado.... ");
 		}
 	}
 

@@ -145,7 +145,7 @@ public class ServerFrame extends JFrame {
 			btnRetry.setEnabled(false);
 			
 		} catch (IOException e) {
-			// TODO revisar
+			// TODO revisar - funciona
 			e.printStackTrace();
 			System.out.println("Excepcion creando serverSocket");
 			txtrPrompt.append("Excepcion creando serverSocket, "+e.getMessage()+". Cierre y eliga otro puerto o presione reintentar para ");
@@ -206,7 +206,7 @@ public class ServerFrame extends JFrame {
 				btnRetry = new JButton("Reintentar");
 				btnRetry.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						port = 0;
+						port = DEFAULT_PORT;
 						startServer();
 					}
 				});
