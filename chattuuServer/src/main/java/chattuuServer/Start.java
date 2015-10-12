@@ -7,27 +7,16 @@ public class Start {
 
 	public static void main(String[] args) {
 		// TODO
-
-		/**
-		 * Prueba, comentar debajo para probar
-		 * que funcione bien
-		 * */
 		ServerFrame instance = null;
 		try {
 		    
-		    if (!AppLock.setLock("MY_CUSTOM_LOCK_KEY")) {
-		        throw new RuntimeException("Only one application instance may run at the same time!");
+		    if (!AppLock.setLock("MY_SUPER_KAWAI_CUSTOM_LOCK_KEY")) {
+		        throw new RuntimeException("Solo es posible correr una sola instancia de la aplicacion a la vez...!");
 		    }
 
 		    instance = ServerFrame.getFrameInstance();
 		    instance.setVisible(true);
 		} finally {}
-		/*
-		finally{
-		    AppLock.releaseLock(); // Release lock
-		    if(instance != null)
-		    	instance.dispose();
-		}*/
 		
 	}
 

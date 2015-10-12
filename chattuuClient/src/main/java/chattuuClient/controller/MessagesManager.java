@@ -48,9 +48,13 @@ public final class MessagesManager implements Runnable{
 				
 				String line;
 				while ((line = in.readLine()) != null && !clientSocket.isInputShutdown()) {
-					String msg = Security.decrypt(line);
-					msg = msg.replace("\n", "\n-> ");
-					chat.getTxtrMsglog().append(msg+"\n");
+					if( !(line.equals(ActionConnect.MAGIC_WORD)) ) {	
+						String msg = Security.decrypt(line.trim());
+						msg = msg.replace("\n", "\n-> ");
+						chat.getTxtrMsglog().append(msg+"\n");
+					} else {
+						chat.forceTerminate();
+					}
 				}
 			}else{
 				return;
@@ -94,9 +98,4 @@ public final class MessagesManager implements Runnable{
 	}
 	
 	//TODO revisar método
-	
-	
-	
-	
-
 }

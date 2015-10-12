@@ -1,10 +1,16 @@
 package chattuuServer.controller;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Enumeration;
+
 import chattuuServer.model.ActiveClients;
 import chattuuServer.model.ClientSocket;
 import chattuuServer.visuals.ServerFrame;
@@ -68,8 +74,7 @@ public final class ConnectionsManager implements Runnable {
 	}
 
 	public void run() {
-		// TODO: volver a porner !terminate
-		while (/*clients.size() < 3 && */!terminate) {
+		while (!terminate) {
 			try {
 				Socket socket = server.accept();
 				if (socket != null) {
@@ -146,6 +151,32 @@ public final class ConnectionsManager implements Runnable {
 
 	}
 
+	public static String displayInterfaceInformation() {
+		String ip = "";
+		Enumeration<NetworkInterface> nets;
+		try {
+			nets = NetworkInterface.getNetworkInterfaces();
+			for (NetworkInterface netint : Collections.list(nets)) {
+				if (!netint.isLoopback() && netint.getName().contains("wlan")) {
+					Enumeration<InetAddress> inetAddresses = netint
+							.getInetAddresses();
+					for (InetAddress inetAddress : Collections
+							.list(inetAddresses)) {
+						if (inetAddress.getHostAddress().contains(".")) {
+							ip = inetAddress.getHostAddress();
+							return ip;
+						}
+					}
+					System.out.printf("\n");
+				}
+			}
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ip;
+	}
+	
 	public ActiveClients getClients() {
 		
 		return clients;

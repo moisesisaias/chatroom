@@ -28,10 +28,7 @@ import java.io.PrintWriter;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import java.awt.Cursor;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.AbstractListModel;
-import javax.swing.JSpinner;
 
 public class ChatFrame extends JFrame{
 
@@ -39,8 +36,6 @@ public class ChatFrame extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	// TODO:  usar extends o atributo, si se usa extends no usar atributo
-	//private JFrame frmChattuu;
 	private JScrollPane scrollPane_1;
 	private JScrollPane scrollPane;
 	
@@ -77,8 +72,6 @@ public class ChatFrame extends JFrame{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		// frmChattuu = new JFrame();
-		// frmChattuu.addWindowListener(new WindowAdapter() {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -89,32 +82,24 @@ public class ChatFrame extends JFrame{
 		addWindowFocusListener(new WindowFocusListener() {
 			
 			public void windowLostFocus(WindowEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
-			
 			public void windowGainedFocus(WindowEvent e) {
 				txtrWritemsg.grabFocus();	
 			}
 		});
 		
-		// frmChattuu.setTitle("Chattuu");
-		// frmChattuu.setMinimumSize(new Dimension(500, 350));
 		setMinimumSize(new Dimension(500, 350));
-		// frmChattuu.setBounds(100, 100, 500, 433);
 		setBounds(100, 100, 500, 433);
-		// frmChattuu.setBounds(100, 100, 500, 300);
 		setBounds(100, 100, 500, 300);
-		// frmChattuu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		//frmChattuu.getContentPane().setLayout(new MigLayout("", "[110px:150px:450px,grow][200px:250.00,grow][110px:110.00]", "[grow][70px:75px][70px:75px]"));
 		getContentPane().setLayout(new MigLayout("", "[110px:150px:450px,grow][200px:250.00,grow][110px:110.00]", "[grow][70px:75px][70px:75px]"));
 		
 		
 		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setAutoscrolls(true);
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane_1.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		//frmChattuu.getContentPane().add(scrollPane_1, "cell 0 0 1 3,grow");
 		getContentPane().add(scrollPane_1, "cell 0 0 1 3,grow");
 		
 		txtCntLog = new JList();
@@ -134,10 +119,10 @@ public class ChatFrame extends JFrame{
 		
 		
 		scrollPane = new JScrollPane();
+		scrollPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		scrollPane.setAutoscrolls(true);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		//frmChattuu.getContentPane().add(scrollPane, "cell 1 0 2 1,grow");
 		getContentPane().add(scrollPane, "cell 1 0 2 1,grow");
 		
 		txtrMsglog = new JTextArea();
@@ -151,7 +136,6 @@ public class ChatFrame extends JFrame{
 		scrollPane_2.setAutoscrolls(true);
 		scrollPane_2.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		scrollPane_2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		//frmChattuu.getContentPane().add(scrollPane_2, "cell 1 1 1 2,grow");
 		getContentPane().add(scrollPane_2, "cell 1 1 1 2,grow");
 		
 		txtrWritemsg = new JTextArea();
@@ -184,7 +168,6 @@ public class ChatFrame extends JFrame{
 			}
 		});
 		btnSend.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		//frmChattuu.getContentPane().add(btnSend, "cell 2 1,grow");
 		getContentPane().add(btnSend, "cell 2 1,grow");
 		
 		btnDisconnect = new JButton("Desconectar");
@@ -194,7 +177,6 @@ public class ChatFrame extends JFrame{
 			}
 		});
 		btnDisconnect.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		//frmChattuu.getContentPane().add(btnDisconnect, "cell 2 2,grow");
 		getContentPane().add(btnDisconnect, "cell 2 2,grow");
 	}
 	
@@ -206,7 +188,6 @@ public class ChatFrame extends JFrame{
 						"Cerrar Chat", JOptionPane.YES_NO_OPTION);
 		if (n == 0) {
 			if (clientSocket.isConnected() && !clientSocket.isClosed()) {
-				// TODO
 				try {
 					messagesManager.setTerminate(true);
 					PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),
@@ -232,6 +213,34 @@ public class ChatFrame extends JFrame{
 			}
 		}
 	}
+	
+	public void forceTerminate() {
+		if (clientSocket.isConnected() && !clientSocket.isClosed()) {
+			try {
+				messagesManager.setTerminate(true);
+				PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),
+						true);
+				out.println(ActionConnect.MAGIC_WORD);
+				out.flush();
+				clientSocket.shutdownOutput();
+				clientSocket.shutdownInput();
+				
+				clientSocket.close();
+				MessagesManager.resetManager();
+				System.out.println("El chat ha cerrado correctamente ... ");
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+			parent.setVisible(true);
+			ChatFrame.this.dispose();
+
+		}else {
+			System.out.println("Hola, hay problemas");
+			parent.setVisible(true);
+			ChatFrame.this.dispose();
+		}
+	}
+	
 	public JFrame getParent() {
 		return parent;
 	}

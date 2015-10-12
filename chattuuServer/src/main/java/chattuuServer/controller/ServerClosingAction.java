@@ -16,8 +16,11 @@ public class ServerClosingAction extends WindowAdapter {
 	
 	@Override
 	public void windowClosing(WindowEvent e) {
-		parent.getConnectionsManager().setTerminate(true);
-		parent.getMessagesManager().setTerminate(true);
+		if(parent.getServer() != null) {
+			parent.getMessagesManager().sendExitKeyMessage();
+			parent.getConnectionsManager().setTerminate(true);
+			parent.getMessagesManager().setTerminate(true);
+		}
 		
 		ConnectionsManager.resetManager();
 		MessagesManager.resetManager();

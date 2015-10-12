@@ -23,9 +23,7 @@ import chattuuServer.model.ClientSocket;
 
 import javax.swing.border.BevelBorder;
 import java.awt.Color;
-import javax.swing.JList;
 import javax.swing.JButton;
-import javax.swing.border.CompoundBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -54,27 +52,7 @@ public class ServerFrame extends JFrame {
 	private MessagesManager messagesManager;
 	private Thread thrToMsgManager;
 	public final static String MAGIC_WORD = "+*JEYMOICHATTUUFIN*+";
-	private JScrollPane scrollPane_1;
-	private JList<Object> list;
-	private JButton btnErase;
 	private JButton btnRetry;
-
-	/**
-	 * Launch the application.
-	 */
-	/*
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ServerFrame frame = new ServerFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -89,7 +67,7 @@ public class ServerFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[40.00,grow][30.00][90.00][40.00,grow][40.00px][80.00][40.00][90px][40.00][100px:100px,grow]", "[grow][][][]"));
+		contentPane.setLayout(new MigLayout("", "[40.00,grow][30.00][116.00][40.00,grow][40.00px][80.00][40.00,grow][90px][40.00,grow]", "[grow][][][]"));
 
 		initComponents();
 		loadPort();
@@ -142,10 +120,10 @@ public class ServerFrame extends JFrame {
 			thrToConManager.start();
 			thrToMsgManager.start();
 			
+			txtIp.setText(ConnectionsManager.displayInterfaceInformation());
 			btnRetry.setEnabled(false);
 			
 		} catch (IOException e) {
-			// TODO revisar - funciona
 			e.printStackTrace();
 			System.out.println("Excepcion creando serverSocket");
 			txtrPrompt.append("Excepcion creando serverSocket, "+e.getMessage()+". Cierre y eliga otro puerto o presione reintentar para ");
@@ -158,6 +136,7 @@ public class ServerFrame extends JFrame {
 	private void initComponents() {
 
 		scrollPane = new JScrollPane();
+		scrollPane.setAutoscrolls(true);
 		scrollPane.setViewportBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		contentPane.add(scrollPane, "cell 0 0 9 1,grow");
@@ -171,18 +150,6 @@ public class ServerFrame extends JFrame {
 		txtrPrompt.setWrapStyleWord(true);
 		txtrPrompt.setLineWrap(true);
 		scrollPane.setViewportView(txtrPrompt);
-
-		scrollPane_1 = new JScrollPane();
-		contentPane.add(scrollPane_1, "cell 9 0 1 4,grow");
-
-		list = new JList<Object>();
-		list.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		scrollPane_1.setViewportView(list);
-
-		btnErase = new JButton("Borrar");
-		btnErase.setBorder(new CompoundBorder());
-		btnErase.setFont(new Font("Tahoma", Font.BOLD, 12));
-		scrollPane_1.setColumnHeaderView(btnErase);
 		
 				lblIp = new JLabel("Ip");
 				lblIp.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -258,11 +225,7 @@ public class ServerFrame extends JFrame {
 	public Thread getThrToMsgManager() {
 		return thrToMsgManager;
 	}
-
-	public JButton getBtnErase() {
-		return btnErase;
-	}
-
+	
 	public JButton getBtnRetry() {
 		return btnRetry;
 	}

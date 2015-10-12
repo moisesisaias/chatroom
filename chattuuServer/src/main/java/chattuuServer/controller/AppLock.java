@@ -10,28 +10,28 @@ import java.util.logging.Logger;
 public class AppLock {
 
 	 /**
-     * Instantiates a new app lock.
+     * Instancia un nuevo app lock.
      */
     private AppLock() {
     }
 
-    /** The lock_file. */
+    /** El lock_file. */
     File lock_file = null;
 
-    /** The lock. */
+    /** El lock. */
     FileLock lock = null;
 
-    /** The lock_channel. */
+    /** El lock_channel. */
     FileChannel lock_channel = null;
 
-    /** The lock_stream. */
+    /** El lock_stream. */
     FileOutputStream lock_stream = null;
 
     /**
-     * Instantiates a new app lock.
+     * Instancia un nuevo app lock.
      *
-     * @param key Unique application key
-     * @throws Exception The exception
+     * @param key Key unica de la aplicacion
+     * @throws Exception La excepcion
      */
     private AppLock(String key) throws Exception {
             String tmp_dir = System.getProperty("java.io.tmpdir");
@@ -39,15 +39,15 @@ public class AppLock {
                     tmp_dir += System.getProperty("file.separator");
             }
 
-            // Acquire MD5
+            // Adquiere MD5
             try {
                     java.security.MessageDigest md = java.security.MessageDigest
                                     .getInstance("MD5");
                     md.reset();
                     String hash_text = new java.math.BigInteger(1, md.digest(key
                                     .getBytes())).toString(16);
-                    // Hash string has no leading zeros
-                    // Adding zeros to the beginnig of has string
+                    // Hash string no tiene ceros iniciales
+                    // Agregando ceros al inicio del hash string
                     while (hash_text.length() < 32) {
                             hash_text = "0" + hash_text;
                     }
@@ -56,7 +56,7 @@ public class AppLock {
                     System.out.println("AppLock.AppLock() file fail");
             }
 
-            // MD5 acquire fail
+            // MD5 adquiere fallo
             if (lock_file == null) {
                     lock_file = new File(tmp_dir + key + ".app_lock");
             }
@@ -72,13 +72,13 @@ public class AppLock {
             lock = lock_channel.tryLock();
 
             if (lock == null) {
-                    throw new Exception("Can't create Lock");
+                    throw new Exception("No es posible crear el Lock");
             }
     }
 
     /**
-     * Release Lock.
-     * Now another application instance can gain lock.
+     * Libera el Lock.
+     * Ahora otra instancia de la App puede ganar el lock.
      *
      * @throws Throwable
      */
@@ -107,12 +107,12 @@ public class AppLock {
     private static AppLock instance;
 
     /**
-     * Set application lock.
-     * Method can be run only one time per application.
-     * All next calls will be ignored.
+     * Establece un lock de la aplicacion.
+     * Metodo solo puede ejecutarse una vez por aplicacion.
+     * Toda llamada siguiente sera ignorada.
      *
-     * @param key Unique application lock key
-     * @return true, if successful
+     * @param key llave lock unica de la applicacion
+     * @return true, si es exitosa
      */
     public static boolean setLock(String key) {
             if (instance != null) {
@@ -123,7 +123,7 @@ public class AppLock {
                     instance = new AppLock(key);
             } catch (Exception ex) {
                     instance = null;
-                    Logger.getLogger(AppLock.class.getName()).log(Level.SEVERE, "Fail to set AppLoc", ex);
+                    Logger.getLogger(AppLock.class.getName()).log(Level.SEVERE, "Fallo al establecer el Lock del App", ex);
                     return false;
             }
 
@@ -137,8 +137,8 @@ public class AppLock {
     }
 
     /**
-     * Trying to release Lock.
-     * After release you can not user AppLock again in this application.
+     * Tratando de liberar el Lock.
+     * Luego de liberado, no es posible usar AppLock nuevamente el la aplicacion
      */
     public static void releaseLock() {
             try {
@@ -147,7 +147,7 @@ public class AppLock {
                 }
                 instance.release();
             } catch (Throwable ex) {
-                    Logger.getLogger(AppLock.class.getName()).log(Level.SEVERE, "Fail to release", ex);
+                    Logger.getLogger(AppLock.class.getName()).log(Level.SEVERE, "Fallo al liberar", ex);
             }
     }
 	

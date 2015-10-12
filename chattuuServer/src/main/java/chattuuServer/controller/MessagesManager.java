@@ -103,6 +103,7 @@ public final class MessagesManager implements Runnable {
 
 							try {
 								// System.out.println(socketClients.indexOf(sock));
+								
 								if (!clSock.getSocket().isOutputShutdown()) {
 									PrintWriter out = new PrintWriter(clSock.getSocket().getOutputStream(), true);
 									out.println(line);
@@ -127,6 +128,25 @@ public final class MessagesManager implements Runnable {
 			}
 		} catch (IOException e) {
 			// TODO hacer algo
+		}
+	}
+	
+	public void sendExitKeyMessage() {
+		for (int i = 0; i < clients.size(); i++) {
+			ClientSocket clSock = clients.getClient(i);
+			try {
+				if (!clSock.getSocket().isOutputShutdown()) {
+					PrintWriter out = new PrintWriter(clSock.getSocket().getOutputStream(), true);
+					out.println(ServerFrame.MAGIC_WORD);
+					out.flush();
+				} else {
+					// TODO
+					parent.getTxtrPrompt().append(clSock.getName() + " Flujo de salida cerrado...\n");
+				}
+				// out.close();
+			} catch (Exception e) {
+				// TODO
+			}
 		}
 	}
 	
