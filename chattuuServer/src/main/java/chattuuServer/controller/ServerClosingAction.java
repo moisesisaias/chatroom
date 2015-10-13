@@ -18,6 +18,12 @@ public class ServerClosingAction extends WindowAdapter {
 	public void windowClosing(WindowEvent e) {
 		if(parent.getServer() != null) {
 			parent.getMessagesManager().sendExitKeyMessage();
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException ignored) {
+				// TODO: verificar que se puede ignorar.
+				System.out.println("Ignorado.... ");
+			}
 			parent.getConnectionsManager().setTerminate(true);
 			parent.getMessagesManager().setTerminate(true);
 		}
@@ -30,12 +36,7 @@ public class ServerClosingAction extends WindowAdapter {
 		if(ServerFrame.getFrameInstance() != null)
 	    	ServerFrame.getFrameInstance().dispose();
 		
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException ignored) {
-			// TODO: verificar que se puede ignorar.
-			System.out.println("Ignorado.... ");
-		}
+		
 	}
 
 }
