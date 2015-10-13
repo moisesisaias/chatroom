@@ -92,7 +92,7 @@ public class ServerFrame extends JFrame {
 			if(port < 0 || port > 65000){
 				throw new IOException("Puerto: "+port+ "invalido. Esta fuera de los margenes");
 			}
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			txtrPrompt.append(e1.getMessage());
 			port = DEFAULT_PORT;
 		}

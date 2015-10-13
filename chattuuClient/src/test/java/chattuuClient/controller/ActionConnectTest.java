@@ -1,216 +1,81 @@
 package chattuuClient.controller;
 
-import java.awt.event.ActionEvent;
-import org.junit.*;
-import chattuuClient.visuals.MainFrame;
 import static org.junit.Assert.*;
 
-/**
- * The class <code>ActionConnectTest</code> contains tests for the class <code>{@link ActionConnect}</code>.
- *
- * @generatedBy CodePro at 10/11/15 7:09 PM
- * @author junior
- * @version $Revision: 1.0 $
- */
+import java.io.IOException;
+import java.net.ServerSocket;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import chattuuClient.visuals.MainFrame;
+
 public class ActionConnectTest {
-	/**
-	 * Run the ActionConnect(MainFrame) constructor test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 10/11/15 7:09 PM
-	 */
-	@Test
-	public void testActionConnect_1()
-		throws Exception {
-		MainFrame parent = MainFrame.getInstace();
+	
+	MainFrame parent;
+	ActionConnect action;
 
-		ActionConnect result = new ActionConnect(parent);
-
-		// add additional test code here
-		assertNotNull(result);
-	}
-
-	/**
-	 * Run the void actionPerformed(ActionEvent) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 10/11/15 7:09 PM
-	 */
-	@Test
-	public void testActionPerformed_1()
-		throws Exception {
-		ActionConnect fixture = new ActionConnect(MainFrame.getInstace());
-		ActionEvent e = new ActionEvent(new Object(), 1, "");
-
-		fixture.actionPerformed(e);
-
-		// add additional test code here
-	}
-
-	/**
-	 * Run the void actionPerformed(ActionEvent) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 10/11/15 7:09 PM
-	 */
-	@Test
-	public void testActionPerformed_2()
-		throws Exception {
-		ActionConnect fixture = new ActionConnect(MainFrame.getInstace());
-		ActionEvent e = new ActionEvent(new Object(), 1, "");
-
-		fixture.actionPerformed(e);
-
-		// add additional test code here
-	}
-
-	/**
-	 * Run the void actionPerformed(ActionEvent) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 10/11/15 7:09 PM
-	 */
-	@Test
-	public void testActionPerformed_3()
-		throws Exception {
-		ActionConnect fixture = new ActionConnect(MainFrame.getInstace());
-		ActionEvent e = new ActionEvent(new Object(), 1, "");
-
-		fixture.actionPerformed(e);
-
-		// add additional test code here
-	}
-
-	/**
-	 * Run the void actionPerformed(ActionEvent) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 10/11/15 7:09 PM
-	 */
-	@Test
-	public void testActionPerformed_4()
-		throws Exception {
-		ActionConnect fixture = new ActionConnect(MainFrame.getInstace());
-		ActionEvent e = new ActionEvent(new Object(), 1, "");
-
-		fixture.actionPerformed(e);
-
-		// add additional test code here
-	}
-
-	/**
-	 * Run the void actionPerformed(ActionEvent) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 10/11/15 7:09 PM
-	 */
-	@Test
-	public void testActionPerformed_5()
-		throws Exception {
-		ActionConnect fixture = new ActionConnect(MainFrame.getInstace());
-		ActionEvent e = new ActionEvent(new Object(), 1, "");
-
-		fixture.actionPerformed(e);
-
-		// add additional test code here
-	}
-
-	/**
-	 * Run the void actionPerformed(ActionEvent) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 10/11/15 7:09 PM
-	 */
-	@Test
-	public void testActionPerformed_6()
-		throws Exception {
-		ActionConnect fixture = new ActionConnect(MainFrame.getInstace());
-		ActionEvent e = new ActionEvent(new Object(), 1, "");
-
-		fixture.actionPerformed(e);
-
-		// add additional test code here
-	}
-
-	/**
-	 * Run the void actionPerformed(ActionEvent) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 10/11/15 7:09 PM
-	 */
-	@Test
-	public void testActionPerformed_7()
-		throws Exception {
-		ActionConnect fixture = new ActionConnect(MainFrame.getInstace());
-		ActionEvent e = new ActionEvent(new Object(), 1, "");
-
-		fixture.actionPerformed(e);
-
-		// add additional test code here
-	}
-
-	/**
-	 * Run the void actionPerformed(ActionEvent) method test.
-	 *
-	 * @throws Exception
-	 *
-	 * @generatedBy CodePro at 10/11/15 7:09 PM
-	 */
-	@Test
-	public void testActionPerformed_8()
-		throws Exception {
-		ActionConnect fixture = new ActionConnect(MainFrame.getInstace());
-		ActionEvent e = new ActionEvent(new Object(), 1, "");
-
-		fixture.actionPerformed(e);
-
-		// add additional test code here
-	}
-
-	/**
-	 * Perform pre-test initialization.
-	 *
-	 * @throws Exception
-	 *         if the initialization fails for some reason
-	 *
-	 * @generatedBy CodePro at 10/11/15 7:09 PM
-	 */
 	@Before
-	public void setUp()
-		throws Exception {
-		// add additional set up code here
+	public void setUp() throws Exception {
+		parent = MainFrame.getInstace();
+		action = new ActionConnect(parent);
 	}
 
-	/**
-	 * Perform post-test clean-up.
-	 *
-	 * @throws Exception
-	 *         if the clean-up fails for some reason
-	 *
-	 * @generatedBy CodePro at 10/11/15 7:09 PM
-	 */
 	@After
-	public void tearDown()
-		throws Exception {
-		// Add additional tear down code here
+	public void tearDown() throws Exception {
 	}
 
-	/**
-	 * Launch the test.
-	 *
-	 * @param args the command line arguments
-	 *
-	 * @generatedBy CodePro at 10/11/15 7:09 PM
-	 */
-	public static void main(String[] args) {
-		new org.junit.runner.JUnitCore().run(ActionConnectTest.class);
+	@Test
+	public void testActionConnect() {
+		//fail("Not yet implemented");
 	}
+	
+	@Test
+	public void testActionConnect_withoutCallActionPerformed(){
+		assertNull(action.getChatuu());
+		assertNull(action.getClientSocket());
+	}
+	
+	@Test
+	public void testActionConnect_callActionPerformedWithInvalidValues(){
+		action.actionPerformed(null);
+		assertNull(action.getChatuu());
+		assertNull(action.getClientSocket());
+	}
+	
+	@Test
+	public void testActionConnect_callActionPerformedWithValidValues(){
+		try{
+		Thread th = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					ServerSocket ser = new ServerSocket(30000); 
+					ser.setSoTimeout(3000);
+					ser.accept();
+					ser.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		
+		th.start();
+		
+		parent.getTxtUserName().setText("John");
+		parent.getTxtIp().setText("169.254.104.142");
+		parent.getTxtPort().setText(Integer.toString(30000));
+		action.actionPerformed(null);
+		assertNotNull(action.getChatuu());
+		assertNotNull(action.getClientSocket());}
+		catch(Exception e){
+			
+		}
+		
+	}
+
 }

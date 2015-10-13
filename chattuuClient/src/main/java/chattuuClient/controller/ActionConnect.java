@@ -23,6 +23,21 @@ public class ActionConnect implements ActionListener {
 	}
 	
 	
+	public MainFrame getParent() {
+		return parent;
+	}
+
+
+	public ClientSocket getClientSocket() {
+		return clientSocket;
+	}
+
+
+	public ChatFrame getChatuu() {
+		return chatuu;
+	}
+
+
 	// TODO: verificar método
 	public void actionPerformed(ActionEvent e) {
 			// TODO: refactoring, variable explicativa

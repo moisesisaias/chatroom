@@ -50,8 +50,12 @@ public final class MessagesManager implements Runnable{
 				while ((line = in.readLine()) != null && !clientSocket.isInputShutdown()) {
 					if( !(line.equals(ActionConnect.MAGIC_WORD)) ) {	
 						String msg = Security.decrypt(line.trim());
+						chat.getScrollPane().grabFocus();
+						chat.getTxtrMsglog().grabFocus();
 						msg = msg.replace("\n", "\n-> ");
 						chat.getTxtrMsglog().append(msg+"\n");
+						chat.getTxtrMsglog().grabFocus();
+						chat.getTxtrWritemsg().grabFocus();
 					} else {
 						chat.forceTerminate();
 					}

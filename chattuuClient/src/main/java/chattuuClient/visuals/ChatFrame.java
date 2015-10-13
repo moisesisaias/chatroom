@@ -25,10 +25,11 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
 import java.awt.Cursor;
-import javax.swing.AbstractListModel;
+import java.awt.Component;
+import java.awt.ComponentOrientation;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class ChatFrame extends JFrame{
 
@@ -36,9 +37,13 @@ public class ChatFrame extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JScrollPane scrollPane_1;
 	private JScrollPane scrollPane;
 	
+	public JScrollPane getScrollPane() {
+		return scrollPane;
+	}
+
+
 	// TODO cambiar el nombre, tip: hacer refactor
 	private JTextArea txtrMsglog;
 	
@@ -50,7 +55,7 @@ public class ChatFrame extends JFrame{
 	private ClientSocket clientSocket;
 	private MessagesManager messagesManager;
 	private Thread thrMsgManager;
-	private JList txtCntLog;
+	
 	
 
 	
@@ -93,39 +98,28 @@ public class ChatFrame extends JFrame{
 		setBounds(100, 100, 500, 433);
 		setBounds(100, 100, 500, 300);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		getContentPane().setLayout(new MigLayout("", "[110px:150px:450px,grow][200px:250.00,grow][110px:110.00]", "[grow][70px:75px][70px:75px]"));
+		getContentPane().setLayout(new MigLayout("", "[110px:150px:450px,grow][200px:250.00,grow][110px:110.00]", "[grow][40px:40px][40px:40px]"));
 		
 		
-		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setAutoscrolls(true);
-		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane_1.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		getContentPane().add(scrollPane_1, "cell 0 0 1 3,grow");
 		
-		txtCntLog = new JList();
-		txtCntLog.setModel(new AbstractListModel() {
-			String[] values = new String[] {};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		txtCntLog.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		txtCntLog.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		txtCntLog.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollPane_1.setViewportView(txtCntLog);
 		
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+		scrollPane.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		scrollPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		scrollPane.setAutoscrolls(true);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		getContentPane().add(scrollPane, "cell 1 0 2 1,grow");
+		getContentPane().add(scrollPane, "cell 0 0 3 1,grow");
 		
 		txtrMsglog = new JTextArea();
+		txtrMsglog.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				scrollPane.getVerticalScrollBar().setAutoscrolls(true);
+			}
+		});
+		txtrMsglog.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		txtrMsglog.setEditable(false);
 		txtrMsglog.setLineWrap(true);
 		txtrMsglog.setWrapStyleWord(true);
@@ -136,7 +130,7 @@ public class ChatFrame extends JFrame{
 		scrollPane_2.setAutoscrolls(true);
 		scrollPane_2.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		scrollPane_2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		getContentPane().add(scrollPane_2, "cell 1 1 1 2,grow");
+		getContentPane().add(scrollPane_2, "cell 0 1 2 2,grow");
 		
 		txtrWritemsg = new JTextArea();
 		txtrWritemsg.setLineWrap(true);
@@ -162,7 +156,6 @@ public class ChatFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if (!txtrWritemsg.getText().equals("")) {
 					messagesManager.write(getTxtrWritemsg().getText());
-					txtrWritemsg.grabFocus();
 				}
 				
 			}
